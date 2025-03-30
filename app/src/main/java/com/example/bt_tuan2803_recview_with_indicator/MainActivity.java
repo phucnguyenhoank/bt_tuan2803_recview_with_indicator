@@ -1,9 +1,12 @@
 package com.example.bt_tuan2803_recview_with_indicator;
 
+import static java.util.Locale.filter;
+
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -18,6 +21,8 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView rcIcon;
     private IconAdapter iconAdapter;
     private List<IconModel> iconList;
+
+    private List<IconModel> originalIconList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,64 +40,91 @@ public class MainActivity extends AppCompatActivity {
         rcIcon.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
         // Initialize sample data.
-        iconList = new ArrayList<>();
+        originalIconList = new ArrayList<>();
         // Replace R.drawable.ic_baseline_person_24 with your actual drawable if needed.
-        iconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Person"));
-        iconList.add(new IconModel(R.drawable.ic_baseline_person_24, "User"));
-        iconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Profile"));
-        iconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Account"));
-        iconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Member"));
-        iconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Administrator"));
-        iconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Guest"));
-        iconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Moderator"));
-        iconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Developer"));
-        iconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Manager"));
-        iconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Editor"));
-        iconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Subscriber"));
-        iconList.add(new IconModel(R.drawable.ic_baseline_person_24, "VIP"));
-        iconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Support"));
-        iconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Trainer"));
-        iconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Teacher"));
-        iconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Doctor"));
-        iconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Nurse"));
-        iconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Engineer"));
-        iconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Designer"));
-        iconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Artist"));
-        iconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Photographer"));
-        iconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Athlete"));
-        iconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Actor"));
-        iconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Musician"));
-        iconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Blogger"));
-        iconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Influencer"));
-        iconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Student"));
-        iconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Scientist"));
-        iconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Pilot"));
-        iconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Driver"));
-        iconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Chef"));
-        iconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Waiter"));
-        iconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Lawyer"));
-        iconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Judge"));
-        iconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Police Officer"));
-        iconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Firefighter"));
-        iconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Soldier"));
-        iconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Astronaut"));
-        iconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Businessman"));
-        iconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Entrepreneur"));
-        iconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Investor"));
-        iconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Scientist"));
-        iconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Researcher"));
-        iconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Writer"));
-        iconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Poet"));
-        iconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Explorer"));
+        originalIconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Person"));
+        originalIconList.add(new IconModel(R.drawable.ic_baseline_person_24, "User"));
+        originalIconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Profile"));
+        originalIconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Account"));
+        originalIconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Member"));
+        originalIconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Administrator"));
+        originalIconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Guest"));
+        originalIconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Moderator"));
+        originalIconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Developer"));
+        originalIconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Manager"));
+        originalIconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Editor"));
+        originalIconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Subscriber"));
+        originalIconList.add(new IconModel(R.drawable.ic_baseline_person_24, "VIP"));
+        originalIconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Support"));
+        originalIconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Trainer"));
+        originalIconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Teacher"));
+        originalIconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Doctor"));
+        originalIconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Nurse"));
+        originalIconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Engineer"));
+        originalIconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Designer"));
+        originalIconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Artist"));
+        originalIconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Photographer"));
+        originalIconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Athlete"));
+        originalIconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Actor"));
+        originalIconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Musician"));
+        originalIconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Blogger"));
+        originalIconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Influencer"));
+        originalIconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Student"));
+        originalIconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Scientist"));
+        originalIconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Pilot"));
+        originalIconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Driver"));
+        originalIconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Chef"));
+        originalIconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Waiter"));
+        originalIconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Lawyer"));
+        originalIconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Judge"));
+        originalIconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Police Officer"));
+        originalIconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Firefighter"));
+        originalIconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Soldier"));
+        originalIconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Astronaut"));
+        originalIconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Businessman"));
+        originalIconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Entrepreneur"));
+        originalIconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Investor"));
+        originalIconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Scientist"));
+        originalIconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Researcher"));
+        originalIconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Writer"));
+        originalIconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Poet"));
+        originalIconList.add(new IconModel(R.drawable.ic_baseline_person_24, "Explorer"));
 
 
         // Set up the adapter.
+        iconList = new ArrayList<>(originalIconList);
         iconAdapter = new IconAdapter(this, iconList);
         rcIcon.setAdapter(iconAdapter);
 
         // Attach the indicator decoration.
         rcIcon.addItemDecoration(new LinePagerIndicatorDecoration(this));
 
+        // Setup SearchView
+        SearchView searchView = findViewById(R.id.searchView);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                filter(query);
+                return false;
+            }
 
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filter(newText);
+                return false;
+            }
+        });
+
+    }
+
+    // Filter method to update the RecyclerView based on search text
+    private void filter(String text) {
+        List<IconModel> filteredList = new ArrayList<>();
+        for (IconModel icon : originalIconList) {
+            if (icon.getDesc().toLowerCase().contains(text.toLowerCase())) {
+                filteredList.add(icon);
+            }
+        }
+        iconAdapter.updateData(filteredList);
     }
 }

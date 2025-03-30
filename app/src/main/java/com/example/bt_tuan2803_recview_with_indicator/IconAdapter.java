@@ -47,6 +47,12 @@ public class IconAdapter extends RecyclerView.Adapter<IconAdapter.IconHolder> {
         return arrayList != null ? arrayList.size() : 0;
     }
 
+
+    public void updateData(List<IconModel> newList) {
+        this.arrayList = newList;
+        notifyDataSetChanged();
+    }
+
     public class IconHolder extends RecyclerView.ViewHolder {
         private ImageView imageView;
         private TextView tvIcon;
@@ -56,4 +62,5 @@ public class IconAdapter extends RecyclerView.Adapter<IconAdapter.IconHolder> {
             tvIcon = itemView.findViewById(R.id.tvIcon);
         }
     }
+
 }
